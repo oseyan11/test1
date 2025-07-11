@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doğal Mermer - Kaliteli Mermer Çözümleri</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ecf0f1;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            color: white;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(52, 73, 94, 0.7), rgba(44, 62, 80, 0.7));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .cta-button {
+            background: #3498db;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .cta-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .indicator.active {
+            background: white;
+        }
+
+        .services {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #3498db;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .service-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        .projects {
+            padding: 5rem 0;
+            background: #ecf0f1;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: scale(1.03);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .project-info p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #3498db;
+        }
+
+        .contact {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            color: #7f8c8d;
+        }
+
+        .contact-info strong {
+            color: #2c3e50;
+        }
+
+        .map-container {
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Doğal Mermer</div>
+                <nav>
+                    <ul>
+                        <li><a href="#anasayfa">Anasayfa</a></li>
+                        <li><a href="#hizmetler">Hizmetlerimiz</a></li>
+                        <li><a href="#projeler">Projelerimiz</a></li>
+                        <li><a href="#iletisim">İletişim</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section id="anasayfa" class="hero">
+        <div class="carousel-container">
+            <div class="carousel-slide active" style="background-image: url('https://i.pinimg.com/736x/7f/24/eb/7f24eb97f1a768667522a357a2237307.jpg')"></div>
+            <div class="carousel-slide" style="background-image: url('https://i.pinimg.com/736x/dd/47/d3/dd47d3419f4745ffb9add54f9e741552.jpg')"></div>
+            <div class="carousel-slide" style="background-image: url('https://i.pinimg.com/736x/1d/05/a8/1d05a8548ed662a009b03e3d9cf01f52.jpg')"></div>
+            <div class="carousel-slide" style="background-image: url('https://i.pinimg.com/736x/1d/d6/b8/1dd6b8fbf68694ac1b62cc5c3754c5a1.jpg')"></div>
+            <div class="carousel-slide" style="background-image: url('https://i.pinimg.com/1200x/53/17/13/5317132229c2bca979314b46bd887fcc.jpg')"></div>
+            <div class="carousel-slide" style="background-image: url('https://i.pinimg.com/736x/3a/13/20/3a13201f9ea51b14874b556ae54ad8f2.jpg')"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Doğal Mermer</h1>
+            <p>Kaliteli mermer işçiliği ve estetik tasarımlarla hayallerinizi gerçeğe dönüştürüyoruz. Yılların deneyimi ile en kaliteli doğal mermer çözümlerini sunuyoruz.</p>
+            <a href="#iletisim" class="cta-button">Ücretsiz Teklif Alın</a>
+        </div>
+        <div class="carousel-indicators">
+            <div class="indicator active" onclick="goToSlide(0)"></div>
+            <div class="indicator" onclick="goToSlide(1)"></div>
+            <div class="indicator" onclick="goToSlide(2)"></div>
+            <div class="indicator" onclick="goToSlide(3)"></div>
+            <div class="indicator" onclick="goToSlide(4)"></div>
+            <div class="indicator" onclick="goToSlide(5)"></div>
+        </div>
+    </section>
+
+    <section id="hizmetler" class="services">
+        <div class="container">
+            <h2 class="section-title">Hizmetlerimiz</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🏛️</div>
+                    <h3>Mermer Kaplama</h3>
+                    <p>İç ve dış mekanlarda profesyonel mermer kaplama hizmetleri. Kaliteli malzeme ve uzman işçilik garantisi.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🪜</div>
+                    <h3>Mermer Merdiven</h3>
+                    <p>Estetik ve dayanıklı mermer merdiven tasarımları. Güvenlik ve şıklığı bir arada sunan çözümler.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛁</div>
+                    <h3>Banyo Mermer</h3>
+                    <p>Lüks banyo tasarımlarında özel mermer uygulamaları. Su geçirmez ve hijyenik çözümler.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🍳</div>
+                    <h3>Mutfak Tezgahı</h3>
+                    <p>Dayanıklı ve şık mutfak tezgahları. Günlük kullanıma uygun özel işlemli mermer yüzeyler.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <h3>Cephe Kaplama</h3>
+                    <p>Binaların dış cephelerinde prestijli mermer kaplama uygulamaları. Hava koşullarına dayanıklı çözümler.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🎨</div>
+                    <h3>Özel Tasarım</h3>
+                    <p>Kişiye özel tasarım ve uygulama hizmetleri. Hayalinizdeki projeyi gerçeğe dönüştürüyoruz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projeler" class="projects">
+        <div class="container">
+            <h2 class="section-title">Projelerimiz</h2>
+            <div class="projects-grid">
+                <div class="project-card" onclick="openModal('https://i.pinimg.com/736x/7f/24/eb/7f24eb97f1a768667522a357a2237307.jpg')">
+                    <img src="https://i.pinimg.com/736x/7f/24/eb/7f24eb97f1a768667522a357a2237307.jpg" alt="Lüks Banyo Projesi" class="project-image">
+                    <div class="project-info">
+                        <h3>Lüks Banyo Projesi</h3>
+                        <p>Modern tasarım anlayışı ile hazırlanan özel banyo kaplama projesi</p>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('https://i.pinimg.com/736x/dd/47/d3/dd47d3419f4745ffb9add54f9e741552.jpg')">
+                    <img src="https://i.pinimg.com/736x/dd/47/d3/dd47d3419f4745ffb9add54f9e741552.jpg" alt="Mutfak Tezgahı" class="project-image">
+                    <div class="project-info">
+                        <h3>Mutfak Tezgahı</h3>
+                        <p>Dayanıklı ve şık mutfak tezgahı uygulaması</p>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('https://i.pinimg.com/736x/1d/05/a8/1d05a8548ed662a009b03e3d9cf01f52.jpg')">
+                    <img src="https://i.pinimg.com/736x/1d/05/a8/1d05a8548ed662a009b03e3d9cf01f52.jpg" alt="Mermer Merdiven" class="project-image">
+                    <div class="project-info">
+                        <h3>Mermer Merdiven</h3>
+                        <p>Estetik ve güvenli mermer merdiven tasarımı</p>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('https://i.pinimg.com/736x/1d/d6/b8/1dd6b8fbf68694ac1b62cc5c3754c5a1.jpg')">
+                    <img src="https://i.pinimg.com/736x/1d/d6/b8/1dd6b8fbf68694ac1b62cc5c3754c5a1.jpg" alt="Salon Dekorasyonu" class="project-image">
+                    <div class="project-info">
+                        <h3>Salon Dekorasyonu</h3>
+                        <p>Lüks salon mermer kaplama ve dekorasyon projesi</p>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('https://i.pinimg.com/1200x/53/17/13/5317132229c2bca979314b46bd887fcc.jpg')">
+                    <img src="https://i.pinimg.com/1200x/53/17/13/5317132229c2bca979314b46bd887fcc.jpg" alt="Cephe Kaplama" class="project-image">
+                    <div class="project-info">
+                        <h3>Cephe Kaplama</h3>
+                        <p>Prestijli bina cephe mermer kaplama projesi</p>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('https://i.pinimg.com/736x/3a/13/20/3a13201f9ea51b14874b556ae54ad8f2.jpg')">
+                    <img src="https://i.pinimg.com/736x/3a/13/20/3a13201f9ea51b14874b556ae54ad8f2.jpg" alt="Özel Tasarım" class="project-image">
+                    <div class="project-info">
+                        <h3>Özel Tasarım</h3>
+                        <p>Kişiye özel tasarlanmış mermer uygulama projesi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">×</span>
+        <div class="modal-content">
+            <img id="modalImage" class="modal-image" src="" alt="">
+        </div>
+    </div>
+
+    <section id="iletisim" class="contact">
+        <div class="container">
+            <h2 class="section-title">İletişim</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Bizimle İletişime Geçin</h3>
+                    <p><strong>Adres:</strong> Dörtyol köyü iç, Çan-Çanakkale Yolu 6.km, 17100 Çanakkale Merkez/Çanakkale</p>
+                    <p><strong>Telefon:</strong> +90 543 868 63 30</p>
+                    <p><strong>Çalışma Saatleri:</strong> Pazartesi - Cumartesi: 08:00 - 18:00</p>
+                    <p>Projeleriniz için ücretsiz teklif alabilirsiniz.</p>
+                </div>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24399.70069700435!2d26.436153574316414!3d40.143117100000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14b1074c21560955%3A0x60c6c5453b49f94f!2sDO%C4%9EAL%20MERMER!5e0!3m2!1str!2str!4v1752141545002!5m2!1str!2str"
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Doğal Mermer. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            showSlide(currentSlide);
+        }
+
+        setInterval(nextSlide, 5000);
+
+        function openModal(imageSrc) {
+            document.getElementById('imageModal').style.display = 'block';
+            document.getElementById('modalImage').src = imageSrc;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        document.getElementById('imageModal').onclick = function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
